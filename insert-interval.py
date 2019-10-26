@@ -15,7 +15,8 @@ def insert_intervals(intervals, new_interval):
 		elif n.start < curr.end:    
 			if n.end < curr.start:  # Safe to add just just before curr since end is way before curr.
 				res.append(n)     
-				return res += intervals[i:]     # Just append everything after.
+				res.append(intervals[i:])     # Just append everything after.
+				return res
 			n.start = min(n.start, curr.start)   # Overlap. So, just take min of start's of overlaps and max of end's of overlap.
 			n.end = max(n.end, curr.end)         # but, don't append anyway. Just override the current `n` new_interval so that it gets merge in next iteration if need be.
 	res.append(n)           # Append last remaining carried over all overrides.
