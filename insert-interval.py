@@ -1,3 +1,5 @@
+# Based on: https://leetcode.com/problems/insert-interval/discuss/21809/Python-O(n)-and-O(nlgn)-solutions
+
 def insert_intervals(intervals, new_interval):
 	if not intervals:
             return [newInterval]
