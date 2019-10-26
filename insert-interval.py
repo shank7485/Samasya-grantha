@@ -1,25 +1,26 @@
 def insert_intervals(intervals, new_interval):
 	if not intervals:
-		return []
-	
-	if not new_interval:
-		return intervals
+            return [newInterval]
+
+        if not newInterval:
+            return intervals
 	
 	n = new_interval
 	res = []
 
 	for i in range(len(intervals)):
 		curr = intervals[i]
-		if n.end < curr.start:  # no overlap
+		if curr[1] < n[0]:  # curr's end is less that n's start. So just append curr and continue
 			res.append(curr)
-		elif n.start < curr.end:    
-			if n.end < curr.start:  # Safe to add just just before curr since end is way before curr.
-				res.append(n)     
-				res.append(intervals[i:])     # Just append everything after.
-				return res
-			n.start = min(n.start, curr.start)   # Overlap. So, just take min of start's of overlaps and max of end's of overlap.
-			n.end = max(n.end, curr.end)         # but, don't append anyway. Just override the current `n` new_interval so that it gets merge in next iteration if need be.
-	res.append(n)           # Append last remaining carried over all overrides.
-
-	return res
-  
+		elif n[1] < curr[0]: # if n's end is less that curr's start. Append n and append rest of the intervals
+                res.append(n)
+                res.extend(intervals[i:])
+                return res
+            else:      # If there is overlap between curr and n, override n's min with the min of starts and max of ends.
+		       # This helps to carry forward overlaps until no more overlaps are there or reach end of list.
+                n[0] = min(n[0], curr[0])
+                n[1] = max(n[1], curr[1])
+        
+        res.append(n)  # If we reach till here means whatever we have accumulated in n needs to added and that is the result.
+        
+        return res
